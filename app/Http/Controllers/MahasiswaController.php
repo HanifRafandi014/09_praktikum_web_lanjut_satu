@@ -67,6 +67,7 @@ class MahasiswaController extends Controller{
         $request->validate([
             'nim' => 'required',
             'nama' => 'required',
+            'foto' => 'required',
             'kelas' => 'required',
             'jurusan' => 'required',
             'no_handphone' => 'required',
@@ -74,9 +75,14 @@ class MahasiswaController extends Controller{
             'tanggal_lahir' => 'required',
         ]);
 
+        $image_name = '';
+        if ($request->file('foto')) {
+            $image_name = $request->file('foto')->store('images', 'public');
+        }
         $mahasiswa = new Mahasiswa;
         $mahasiswa->nim = $request->get('nim');
         $mahasiswa->nama = $request->get('nama');
+        $mahasiswa->foto = $image_name;
         $mahasiswa->jurusan = $request->get('jurusan');
         $mahasiswa->no_handphone = $request->get('no_handphone');
         $mahasiswa->email = $request->get('email');
@@ -101,9 +107,9 @@ class MahasiswaController extends Controller{
      */
     public function show($nim)
     {
-     $Mahasiswa = Mahasiswa::with('kelas')->where('nim', $nim)->first();
-     return view('mahasiswa.detail', compact('Mahasiswa'));
- }
+       $Mahasiswa = Mahasiswa::with('kelas')->where('nim', $nim)->first();
+       return view('mahasiswa.detail', compact('Mahasiswa'));
+   }
 
     /**
      * Show the form for editing the specified resource.
@@ -113,11 +119,11 @@ class MahasiswaController extends Controller{
      */
     public function edit($nim)
     {
-     $Mahasiswa = Mahasiswa::with('kelas')->where('nim', $nim)->first();
-     $kelas = Kelas::all();
-     return view('mahasiswa.edit', compact('Mahasiswa', 'kelas'));
+       $Mahasiswa = Mahasiswa::with('kelas')->where('nim', $nim)->first();
+       $kelas = Kelas::all();
+       return view('mahasiswa.edit', compact('Mahasiswa', 'kelas'));
 
-     if(isset($_POST['edit'])) {
+       if(isset($_POST['edit'])) {
             // code untuk mengedit data
             // setelah berhasil mengedit data
         echo "<script>alert('Data berhasil diubah!');</script>";
@@ -136,6 +142,7 @@ class MahasiswaController extends Controller{
         $request->validate([
             'nim' => 'required',
             'nama' => 'required',
+            'foto' => 'required',
             'kelas' => 'required',
             'jurusan' => 'required',
             'no_handphone' => 'required',
@@ -145,6 +152,13 @@ class MahasiswaController extends Controller{
 
         //fungsi eloquent untuk mengupdate data inputan kita
         $mahasiswa = Mahasiswa::with('kelas')->where('nim', $nim)->first();
+
+        if ($mahasiswa->foto && file_exists(storage_path('app/public/' . $mahasiswa->foto))) {
+            \Storage::delete('public/' . $mahasiswa->foto);
+        }
+
+        $image_name = $request->file('foto')->store('images', 'public');
+        $mahasiswa->foto = $image_name;
 
         $mahasiswa->nim = $request->get('nim');
         $mahasiswa->nama = $request->get('nama');

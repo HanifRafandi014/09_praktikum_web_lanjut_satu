@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MahasiswaController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -36,4 +35,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/khsmahasiswa/{id}', [MahasiswaController::class, 'khs'])->name('mahasiswa.khs');
 
 Route::get('/khsmahasiswa/cetak_pdf/{id}', [MahasiswaController::class, 'cetak_khs'])->name('cetak_khs');
-Route::get('/khsmahasiswa/cetak_pdf/{id}', 'MahasiswaController@cetak_pdf');
+Route::post('/cetak_khs', 'cetak_khs@cetak_khs');

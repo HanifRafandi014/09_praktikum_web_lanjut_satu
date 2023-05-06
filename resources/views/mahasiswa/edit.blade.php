@@ -18,9 +18,9 @@
 					</ul>
 				</div>
 				@endif
-				<form method="post" action="{{ route('mahasiswa.update', $Mahasiswa->nim) }}" id="myForm">
-					@csrf
+				<form method="post" action="{{ route('mahasiswa.update', $Mahasiswa->nim) }}" enctype="multipart/form-data" id="myForm">
 					@method('PUT') 
+					@csrf
 					<div class="form-group">
 						<label for="nim">Nim</label>
 						<input type="text" name="nim" class="form-control" id="nim" value="{{ $Mahasiswa->nim }}" aria-describedby="nim" >
@@ -29,6 +29,15 @@
 						<label for="nama">Nama</label>
 						<input type="text" name="nama" class="form-control" id="nama" value="{{ $Mahasiswa->nama }}" aria-describedby="nama" >
 					</div>
+
+					<div class="form-group">
+						<label for="foto" class="form-label">Foto</label>
+						<div class="d-flex align-items-center">
+							<img width="60px" class="rounded mx-auto d-block" src="{{ $Mahasiswa->foto==''? asset('images/default.png'): asset('storage/'.$Mahasiswa->foto) }}" alt="">
+							<input class="form-control" style="margin-left: 5px;" type="file" id="foto" name="foto" value="{{ $Mahasiswa->foto }}">
+						</div>
+					</div>
+
 					<div class="form-group">
 						<label for="kelas">Kelas</label>
 						<select class="custom-select" id="kelas" name="kelas">
@@ -54,6 +63,7 @@
 						<label for="tanggal_lahir">Tanggal_Lahir</label>
 						<input type="tanggal_lahir" name="tanggal_lahir" class="form-control" id="tanggal_lahir" value="{{ $Mahasiswa->tanggal_lahir }}" aria-describedby="tanggal_lahir" >
 					</div>
+
 					<form method="post" action="">
 						<button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin ingin menyimpan perubahan ini?');">Submit</button>
 						<a class="btn btn-success" href="{{ route('mahasiswa.index') }}">Kembali</a>

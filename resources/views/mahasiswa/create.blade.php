@@ -60,6 +60,11 @@
 					<input type="tanggal_lahir" name="tanggal_lahir" class="form-control" id="tanggal_lahir" aria-describedby="tanggal_lahir" >
 				</div>
 
+				<div class="form-group">
+					<label for="foto" class="form-label">Foto</label>
+					<input class="form-control" type="file" id="foto" name="foto">
+				</div>
+
 				<form method="post" action="">
 					<button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin ingin menambahkan data ini?');">Submit</button>
 				</form>

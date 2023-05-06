@@ -51,6 +51,7 @@
 						<tr>
 							<th>Nim</th>
 							<th>Nama</th>
+							<th width="70px">Foto</th>
 							<th>Kelas</th>
 							<th>Jurusan</th>
 							<th>No_Handphone</th>
@@ -62,13 +63,14 @@
 						<tr>
 							<td>{{ $Mahasiswa->nim }}</td>
 							<td>{{ $Mahasiswa->nama }}</td>
+							<td><img width="50px" class="rounded mx-auto d-block" src="{{ $Mahasiswa->foto==''? asset('images/default.png'): asset('storage/'.$Mahasiswa->foto) }}" alt=""></td>
 							<td>{{ $Mahasiswa->kelas->nama_kelas }}</td>
 							<td>{{ $Mahasiswa->jurusan }}</td>
 							<td>{{ $Mahasiswa->no_handphone }}</td>
 							<td>{{ $Mahasiswa->email }}</td>
 							<td>{{ $Mahasiswa->tanggal_lahir }}</td>
 							<td>
-								<form action="{{ route('mahasiswa.destroy',$Mahasiswa->nim) }}" method="POST">
+								<form action="{{ route('mahasiswa.destroy',['mahasiswa'=>$Mahasiswa->nim]) }}" method="POST">
 									<a class="btn btn-info" href="{{ route('mahasiswa.show',$Mahasiswa->nim) }}">Show</a>
 									<a class="btn btn-primary" href="{{ route('mahasiswa.edit',$Mahasiswa->nim) }}">Edit</a>
 									@csrf 
